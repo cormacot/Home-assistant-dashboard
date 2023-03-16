@@ -1,0 +1,35 @@
+Title: Development of a Home Assistant Dashboard for Public Transport Route Planning
+
+Introduction:
+The purpose of this project is to develop a home assistant dashboard that provides live updates on the best public transport routes from a given location to a destination. The dashboard will display the top three routes, their estimated time of arrival, and backup routes in case of missed transfers. The dashboard will be designed to resemble a 1930s style wall-mounted display, and will be built using the ODROID C2, a cost-effective Raspberry Pi alternative.
+
+Hardware and Software Requirements:
+The minimum hardware requirements for this project are a single-board computer with a minimum of 2GB RAM, a 16GB SD card, an HDMI display, and a touch screen display. The ODROID C2 meets these requirements and is available at a reasonable price. The dashboard will be powered by Home Assistant, an open-source platform for home automation. The required tools and materials for the 1930s style surround will depend on the chosen design.
+
+Procedure:
+
+Acquire the ODROID C2 and the required accessories, such as a power supply, HDMI cable, and touch screen display.
+Install the operating system on the SD card, and connect the ODROID C2 to the internet.
+Install Home Assistant on the ODROID C2 using the provided instructions.
+Set up the public transport route planning script, "Morning Commute," to display the top three routes and backup routes for a one-way journey between the specified home and work addresses.
+Set up the script to provide verbal options and allow the user to verbally select an option for SMS delivery of the route details.
+Design and construct the 1930s style surround for the HDMI display, and mount the ODROID C2 and display onto it.
+Set up the dashboard to automatically display the "Morning Commute" script between 5am and 10am on weekdays.
+Conclusion:
+The development of a home assistant dashboard for public transport route planning requires a single-board computer with a minimum of 2GB RAM, an HDMI display, and a touch screen display. The ODROID C2 is a cost-effective Raspberry Pi alternative that meets these requirements. Home Assistant provides the necessary platform for developing the "Morning Commute" script, which displays the top three routes and backup routes for a one-way journey between specified home and work addresses. The 1930s style surround provides an aesthetically pleasing way to mount the dashboard on a wall.
+
+
+Background and context:
+
+The use of smart home technology has seen tremendous growth in recent years. One popular platform for home automation is Home Assistant, an open-source software that allows users to control their home devices and automate various tasks.
+
+This report focuses on designing and implementing a Home Assistant project that provides live updates on the best public transport route between a user's home and workplace. The project aims to help users save time and plan their daily commute efficiently.
+
+The project involves using a single-board computer, such as a Raspberry Pi or an Odroid C2, to run the Home Assistant software and display the commute information on a touch screen display. The user can interact with the display to accept a route option and receive route details via SMS.
+
+This report includes the design and implementation of the Home Assistant project, including the necessary hardware, software, and scripts. It also discusses various options for hardware, displays, and scripting, including their features and costs. The report concludes by outlining potential future improvements and expansions to the project.
+
+
+
+
+
