@@ -1,0 +1,81 @@
+# Import the necessary modules
+import requests
+import json
+import time
+import pyttsx3
+from datetime import datetime, timedelta
+from twilio.rest import Client
+
+# Define the starting location and the destination
+home_location = "Zevenbergenstraat 4, 5652JP Netherlands"
+work_location = "ASML Building 4, Netherlands"
+
+# Define the API endpoint and the API key
+api_endpoint = "https://api.openrouteservice.org/v2/directions"
+api_key = "<YOUR_API_KEY>"
+params = {"api_key": api_key}
+
+# Set the headers for the requests
+headers = {"Accept": "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8",
+           "Authorization": api_key,
+           "Content-Type": "application/json; charset=utf-8"}
+
+# Initialize the text-to-speech engine
+engine = pyttsx3.init()
+
+# Define the Twilio account details
+account_sid = "<YOUR_ACCOUNT_SID>"
+auth_token = "<YOUR_AUTH_TOKEN>"
+twilio_phone_number = "<YOUR_TWILIO_PHONE_NUMBER>"
+your_phone_number = "<YOUR_PHONE_NUMBER>"
+client = Client(account_sid, auth_token)
+
+# Define the function to get the best route information for public transport
+def get_public_transport_route_info():
+    profiles = ["cycling-regular", "public-transport", "driving-car"]
+    routes = []
+    for profile in profiles:
+        params["profile"] = profile
+        response = requests.get(api_endpoint, headers=headers, params=params)
+        data = json.loads(response.text)
+        duration = round(data['features'][0]['properties']['segments'][0]['duration'] / 60, 1)
+        distance = round(data['features'][0]['properties']['segments'][0]['distance'] / 1000, 1)
+        instructions = data['features'][0]['properties']['segments'][0]['steps'][0]['instruction']
+        route = {"profile": profile, "duration": duration, "distance": distance, "instructions": instructions}
+        routes.append(route)
+    public_transport_routes = []
+    for i in range(len(routes)):
+        if routes[i]["profile"] == "driving-car":
+            continue
+        public_transport_routes.append(routes[i])
+    public_transport_routes = sorted(public_transport_routes, key=lambda k: k['duration'])[:3]
+    return public_transport_routes
+
+# Define the function to check for disruptions on the journey
+def check_disruptions():
+    params = {"profile": "driving-car",
+              "locations": [home_location, work_location],
+              "options": {"avoid_features": ["tollways"]}}
+    response = requests.post(api_endpoint + '/isochrones', headers=headers, json=params)
+    data = json.loads(response.text)
+    if data['features'][0]['properties']['status'] != "OK":
+        message = "There may be disruptions on the journey. Please check local travel information."
+        print(message)
+        engine.say(message)
+        engine.runAndWait()
+    else:
+        print("No disruptions on the journey.")
+
+# Define the function to update the public transport route information every 5 minutes
+def update_public_transport_route_info():
+    while True:
+        public_transport_routes = get_public_transport_route_info()
+        check_disruptions()
+        for i in range(len(public_transport_routes)):
+            profile = public_transport_routes[i]["profile"]
+            duration = public_transport_routes[i]["duration"]
+            distance = public_transport_routes[i]["distance"]
+            instructions = public_transport_routes[i]["instructions"]
+            now = datetime.now()
+            arrival_time = now + timedelta(minutes=duration)
+            message = f"Route {i+1
