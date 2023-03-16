@@ -1,0 +1,38 @@
+README for "Morning Commute" script:
+
+The "Morning Commute" script is a Home Assistant automation that provides live updates on the best public transport route between a user's home and workplace. The script runs continuously between 5am and 10am on weekdays and displays up to three route options on a touch screen display. The user can interact with the display to accept a route option and receive route details via SMS.
+
+How the code works:
+
+The script is written in Python and consists of several functions that work together to retrieve and process route information, display the information on a touch screen, and interact with the user.
+
+get_routes(): This function uses the Google Maps API to retrieve up to three route options between the user's home and workplace using various modes of transportation, such as cycling, walking, and public transport. The function also checks for any disruptions on the public transport route and provides a backup route in case of missed connections.
+
+display_routes(): This function uses the Pygame library to display the route information on a touch screen connected to the single-board computer. The information includes the distance, estimated travel time, and any disruptions on the route.
+
+send_sms(): This function uses the Twilio API to send the route details to the user's phone via SMS.
+
+The main function (morning_commute()): This function runs continuously between 5am and 10am on weekdays and calls the get_routes() function every five minutes to retrieve and process the route information. It then calls the display_routes() function to display the information on the touch screen. If the user selects a route option, the function calls the send_sms() function to send the details via SMS.
+
+Requirements:
+
+Home Assistant installed on a single-board computer, such as a Raspberry Pi or Odroid C2
+Touch screen display connected to the single-board computer
+Python 3 installed on the single-board computer
+Pygame, Requests, and Twilio libraries installed in Python
+Usage:
+
+Clone the GitHub repository containing the script.
+Modify the script to include your Google Maps and Twilio API keys, as well as your home and workplace addresses and phone number.
+Connect the touch screen display to the single-board computer.
+Install the Pygame, Requests, and Twilio libraries in Python.
+Add the script to Home Assistant's automation YAML file and restart Home Assistant.
+The script will run continuously between 5am and 10am on weekdays and display up to three route options on the touch screen display. The user can interact with the display to accept a route option and receive route details via SMS.
+Potential improvements:
+
+Add additional modes of transportation, such as driving or using public bikes.
+Integrate with other home automation devices, such as smart lights or coffee makers, to streamline the user's morning routine.
+Provide real-time traffic information and adjust the route options accordingly.
+Use machine learning to learn the user's preferred route and suggest it as the default option.
+
+
